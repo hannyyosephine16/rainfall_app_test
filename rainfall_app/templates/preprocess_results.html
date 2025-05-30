@@ -1,0 +1,146 @@
+{% extends "layout.html" %}
+
+{% block title %}Hasil Pra-pemrosesan - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="fas fa-check-circle me-2"></i>Pra-pemrosesan Berhasil</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-header bg-light">
+                                <h5 class="card-title mb-0">Distribusi Kelas Curah Hujan</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <img src="data:image/png;base64,{{ class_dist_plot }}" class="img-fluid" alt="Class Distribution">
+                                
+                                <div class="table-responsive mt-3">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Kategori</th>
+                                                <th>Jumlah</th>
+                                                <th>Persentase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% set total = 0 %}
+                                            {% for category, count in class_distribution.items() %}
+                                                {% set total = total + count %}
+                                            {% endfor %}
+                                            
+                                            {% for category, count in class_distribution.items() %}
+                                            <tr>
+                                                <td>{{ category }}</td>
+                                                <td>{{ count }}</td>
+                                                <td>
+                                                    {% if total > 0 %}
+                                                    {{ (count / total * 100)|round(2) }}%
+                                                    {% else %}
+                                                    0%
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card mb-3">
+                            <div class="card-header bg-light">
+                                <h5 class="card-title mb-0">Informasi Dataset</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-success">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    Data berhasil dipisahkan menjadi data latih dan data uji
+                                </div>
+                                
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Jumlah Data Latih
+                                        <span class="badge bg-primary rounded-pill">{{ X_train_shape[0] }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Jumlah Data Uji
+                                        <span class="badge bg-primary rounded-pill">{{ X_test_shape[0] }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Jumlah Fitur
+                                        <span class="badge bg-primary rounded-pill">{{ X_train_shape[1] }}</span>
+                                    </li>
+                                </ul>
+                                
+                                <div class="alert alert-info mt-3">
+                                    <small>
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Rasio data latih dan uji: 75% : 25%
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Analisis Kepentingan Fitur</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">
+                    Langkah selanjutnya adalah menganalisis kepentingan fitur-fitur dalam dataset untuk menentukan 
+                    fitur mana yang paling berpengaruh terhadap prediksi curah hujan.
+                </p>
+                
+                <form action="{{ url_for('analyze_feature_importance') }}" method="post">
+                    <div class="row mb-4">
+                        <div class="col-md-6 mx-auto">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0">Pilih Metode Analisis</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="method" class="form-label">Metode Analisis Kepentingan Fitur</label>
+                                        <select name="method" id="method" class="form-select">
+                                            <option value="random_forest" selected>Random Forest</option>
+                                            <option value="anova">ANOVA F-test</option>
+                                            <option value="rfe">Recursive Feature Elimination (RFE)</option>
+                                        </select>
+                                        <div class="form-text text-muted">
+                                            <ul class="mt-2">
+                                                <li><strong>Random Forest</strong>: Menggunakan algoritma Random Forest untuk mengevaluasi kepentingan fitur</li>
+                                                <li><strong>ANOVA F-test</strong>: Menggunakan uji statistik untuk mengukur korelasi fitur dengan target</li>
+                                                <li><strong>RFE</strong>: Secara bertahap menghilangkan fitur yang kurang penting</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 col-md-6 mx-auto">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-chart-bar me-2"></i>Analisis Kepentingan Fitur
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

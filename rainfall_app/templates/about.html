@@ -1,0 +1,230 @@
+{% extends "layout.html" %}
+
+{% block title %}Tentang - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-info-circle me-2"></i>Tentang Aplikasi</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 text-center mb-4">
+                        <img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-weather.svg" 
+                             alt="Weather Analysis" class="img-fluid rounded" style="max-height: 200px;">
+                    </div>
+                    
+                    <div class="col-md-8">
+                        <h2>Aplikasi Analisis Curah Hujan</h2>
+                        <p class="lead">
+                            Aplikasi berbasis web untuk mengevaluasi efisiensi dan efektivitas dataset curah hujan
+                            dengan model klasifikasi berbasis machine learning.
+                        </p>
+                        <p>
+                            Aplikasi ini memungkinkan pengguna untuk mengunggah dataset meteorologi, melakukan analisis
+                            komprehensif, membangun model klasifikasi curah hujan, dan mendapatkan rekomendasi untuk
+                            meningkatkan kualitas dataset.
+                        </p>
+                    </div>
+                </div>
+                
+                <hr>
+                
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h4><i class="fas fa-cogs me-2"></i>Fitur Utama</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <i class="fas fa-chart-pie me-2 text-primary"></i>
+                                Analisis kepentingan fitur meteorologi
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-robot me-2 text-primary"></i>
+                                Perbandingan berbagai algoritma klasifikasi
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-sliders-h me-2 text-primary"></i>
+                                Tuning model untuk performa optimal
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-chart-line me-2 text-primary"></i>
+                                Evaluasi efisiensi dan efektivitas dataset
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-cloud-rain me-2 text-primary"></i>
+                                Prediksi kategori curah hujan
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-download me-2 text-primary"></i>
+                                Ekspor model untuk penggunaan eksternal
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h4><i class="fas fa-chart-bar me-2"></i>Algoritma yang Digunakan</h4>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <i class="fas fa-tree me-2 text-success"></i>
+                                Random Forest
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-bolt me-2 text-warning"></i>
+                                XGBoost
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-vector-square me-2 text-danger"></i>
+                                Support Vector Machine (SVM)
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-chart-line me-2 text-info"></i>
+                                Logistic Regression
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-chart-bar me-2 text-primary"></i>
+                                Gradient Boosting
+                            </li>
+                            <li class="list-group-item">
+                                <i class="fas fa-users me-2 text-secondary"></i>
+                                K-Nearest Neighbors (KNN)
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h4><i class="fas fa-book me-2"></i>Panduan Penggunaan</h4>
+                        <div class="accordion" id="accordionGuide">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                        <i class="fas fa-upload me-2"></i>Unggah Dataset
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionGuide">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Unggah file CSV atau Excel yang berisi data meteorologi Anda. Dataset harus berisi
+                                            kolom-kolom yang terkait dengan parameter meteorologi seperti arah angin, kecepatan angin,
+                                            kelembapan, temperatur, dan curah hujan.
+                                        </p>
+                                        <ul>
+                                            <li>Format yang didukung: CSV, XLSX, XLS</li>
+                                            <li>Ukuran file maksimum: 16MB</li>
+                                            <li>Pastikan data Anda bersih dan tidak memiliki nilai yang hilang yang signifikan</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                        <i class="fas fa-cogs me-2"></i>Pra-pemrosesan Data
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionGuide">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Aplikasi akan melakukan pra-pemrosesan data yang meliputi normalisasi, penanganan nilai yang hilang,
+                                            dan definisi kategori curah hujan. Anda dapat mengatur parameter pra-pemrosesan seperti:
+                                        </p>
+                                        <ul>
+                                            <li>Kolom target (curah hujan)</li>
+                                            <li>Batas kategori curah hujan</li>
+                                            <li>Label untuk setiap kategori</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                        <i class="fas fa-chart-bar me-2"></i>Analisis Kepentingan Fitur
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionGuide">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Aplikasi akan menganalisis kepentingan fitur-fitur dalam dataset untuk menentukan
+                                            fitur mana yang paling berpengaruh terhadap prediksi curah hujan. Anda dapat memilih
+                                            metode analisis kepentingan fitur:
+                                        </p>
+                                        <ul>
+                                            <li><strong>Random Forest</strong>: Menggunakan algoritma Random Forest untuk mengevaluasi kepentingan fitur</li>
+                                            <li><strong>ANOVA F-test</strong>: Menggunakan uji statistik untuk mengukur korelasi fitur dengan target</li>
+                                            <li><strong>RFE</strong>: Secara bertahap menghilangkan fitur yang kurang penting</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFour">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                        <i class="fas fa-robot me-2"></i>Membangun Model
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionGuide">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Aplikasi akan membangun dan membandingkan berbagai model klasifikasi untuk menemukan
+                                            model terbaik untuk dataset Anda. Model-model yang dibandingkan meliputi:
+                                        </p>
+                                        <ul>
+                                            <li>Random Forest</li>
+                                            <li>XGBoost</li>
+                                            <li>Support Vector Machine (SVM)</li>
+                                            <li>Logistic Regression</li>
+                                            <li>Gradient Boosting</li>
+                                            <li>K-Nearest Neighbors (KNN)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingFive">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                                        <i class="fas fa-chart-line me-2"></i>Evaluasi Dataset
+                                    </button>
+                                </h2>
+                                <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#accordionGuide">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Aplikasi akan mengevaluasi efisiensi dan efektivitas dataset Anda berdasarkan
+                                            performa model. Evaluasi meliputi:
+                                        </p>
+                                        <ul>
+                                            <li>Pengaruh ukuran dataset terhadap performa model</li>
+                                            <li>Pengaruh jumlah fitur terhadap performa model</li>
+                                            <li>Identifikasi fitur optimal</li>
+                                            <li>Rekomendasi untuk meningkatkan kualitas dataset</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-5 text-center">
+                    <h4>Siap untuk Mencoba?</h4>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-3">
+                        <a href="{{ url_for('upload_file') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-upload me-2"></i>Mulai Analisis
+                        </a>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-home me-2"></i>Kembali ke Beranda
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block title %}Hasil Model - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="fas fa-check-circle me-2"></i>Model Berhasil Dibangun</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success">
+                    <i class="fas fa-trophy me-2"></i>
+                    <strong>Model Terbaik: {{ best_model }}</strong> - Model ini menunjukkan performa terbaik berdasarkan cross-validation.
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="card-title mb-0">Perbandingan Model</h5>
+                            </div>
+                            <div class="card-body text-center">
+                                <img src="data:image/png;base64,{{ model_comparison_plot }}" class="img-fluid" alt="Model Comparison">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Detail Performa Model</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Model</th>
+                                        <th>Akurasi</th>
+                                        <th>Presisi</th>
+                                        <th>Recall</th>
+                                        <th>F1-Score</th>
+                                        <th>CV Mean</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for model_name, result in model_results.items() %}
+                                    <tr {% if model_name == best_model %}class="table-success"{% endif %}>
+                                        <td>{{ model_name }}</td>
+                                        <td>{{ result.accuracy|round(4) }}</td>
+                                        <td>{{ result.precision|round(4) }}</td>
+                                        <td>{{ result.recall|round(4) }}</td>
+                                        <td>{{ result.f1|round(4) }}</td>
+                                        <td>{{ result.cv_mean|round(4) }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Interpretasi Hasil</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li><strong>Akurasi</strong>: Persentase prediksi yang benar dari total prediksi</li>
+                            <li><strong>Presisi</strong>: Proporsi prediksi positif yang benar-benar positif</li>
+                            <li><strong>Recall</strong>: Proporsi sampel positif yang diprediksi dengan benar</li>
+                            <li><strong>F1-Score</strong>: Rata-rata harmonik dari presisi dan recall</li>
+                            <li><strong>CV Mean</strong>: Rata-rata akurasi dalam cross-validation (5-fold)</li>
+                        </ul>
+                        
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Cross-validation</strong> memberikan estimasi performa model yang lebih stabil 
+                            dengan membagi data latih menjadi beberapa bagian dan melatih model beberapa kali.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-sliders-h me-2"></i>Tuning Model Terbaik</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">
+                    Langkah selanjutnya adalah melakukan tuning parameter pada model terbaik untuk meningkatkan
+                    performa model lebih lanjut.
+                </p>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Model {{ best_model }}</strong> akan di-tuning menggunakan grid search untuk menemukan
+                    kombinasi parameter terbaik.
+                </div>
+                
+                <form action="{{ url_for('tune_model') }}" method="post">
+                    <div class="d-grid gap-2 col-md-6 mx-auto">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-sliders-h me-2"></i>Lakukan Tuning Model
+                        </button>
+                        <div class="form-text text-center text-muted">
+                            Proses ini mungkin memerlukan waktu beberapa menit tergantung pada kompleksitas model
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

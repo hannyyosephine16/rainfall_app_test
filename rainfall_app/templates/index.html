@@ -1,0 +1,167 @@
+{% extends "layout.html" %}
+
+{% block title %}Beranda - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row align-items-center">
+    <!-- Hero Section -->
+    <div class="col-md-6">
+        <div class="p-4">
+            <h1 class="display-4 fw-bold text-primary">Analisis Curah Hujan</h1>
+            <p class="lead">
+                Evaluasi efisiensi dan efektivitas dataset curah hujan Anda dengan model klasifikasi berbasis AI.
+            </p>
+            <hr class="my-4">
+            <p>
+                Unggah dataset Anda, lakukan analisis mendalam, dan dapatkan rekomendasi untuk meningkatkan
+                dataset meteorologi Anda.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
+                <a href="{{ url_for('upload_file') }}" class="btn btn-primary btn-lg px-4 me-md-2">
+                    <i class="fas fa-upload me-2"></i>Mulai Analisis
+                </a>
+                <a href="{{ url_for('about') }}" class="btn btn-outline-secondary btn-lg px-4">
+                    <i class="fas fa-info-circle me-2"></i>Pelajari Lebih Lanjut
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hero Image -->
+    <div class="col-md-6">
+        <div class="p-4 text-center">
+            <img src="https://cdnjs.cloudflare.com/ajax/libs/webicons/2.0.0/webicons/webicon-weather.svg" 
+                 alt="Weather Analysis" class="img-fluid rounded" style="max-height: 350px;">
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row mt-5">
+    <div class="col-12 text-center mb-4">
+        <h2 class="fw-bold">Fitur Utama</h2>
+        <p class="text-muted">Evaluasi komprehensif untuk dataset curah hujan Anda</p>
+    </div>
+    
+    <!-- Feature 1 -->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <i class="fas fa-chart-pie fa-3x text-primary"></i>
+                </div>
+                <h5 class="card-title text-center">Analisis Fitur</h5>
+                <p class="card-text">
+                    Identifikasi fitur meteorologi mana yang paling berpengaruh terhadap curah hujan dan
+                    mana yang kurang relevan.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Feature 2 -->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <i class="fas fa-robot fa-3x text-primary"></i>
+                </div>
+                <h5 class="card-title text-center">Model Klasifikasi</h5>
+                <p class="card-text">
+                    Bandingkan berbagai algoritma klasifikasi untuk menemukan model terbaik untuk data Anda.
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Feature 3 -->
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <i class="fas fa-database fa-3x text-primary"></i>
+                </div>
+                <h5 class="card-title text-center">Evaluasi Dataset</h5>
+                <p class="card-text">
+                    Analisis efisiensi dataset Anda dan dapatkan rekomendasi untuk peningkatan kualitas data.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Workflow Section -->
+<div class="row mt-5">
+    <div class="col-12 text-center mb-4">
+        <h2 class="fw-bold">Cara Kerja</h2>
+        <p class="text-muted">Proses analisis curah hujan dalam beberapa langkah sederhana</p>
+    </div>
+    
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="row g-4 py-3">
+                    <!-- Step 1 -->
+                    <div class="col-md-3 text-center">
+                        <div class="p-3">
+                            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                <span class="fs-4">1</span>
+                            </div>
+                            <h5>Unggah Data</h5>
+                            <p class="text-muted">Unggah file CSV atau Excel dengan data meteorologi Anda</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="col-md-3 text-center">
+                        <div class="p-3">
+                            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                <span class="fs-4">2</span>
+                            </div>
+                            <h5>Pra-pemrosesan</h5>
+                            <p class="text-muted">Normalisasi data dan atur parameter klasifikasi</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="col-md-3 text-center">
+                        <div class="p-3">
+                            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                <span class="fs-4">3</span>
+                            </div>
+                            <h5>Bangun Model</h5>
+                            <p class="text-muted">Latih dan bandingkan berbagai algoritma klasifikasi</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4 -->
+                    <div class="col-md-3 text-center">
+                        <div class="p-3">
+                            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 50px; height: 50px;">
+                                <span class="fs-4">4</span>
+                            </div>
+                            <h5>Evaluasi</h5>
+                            <p class="text-muted">Dapatkan insight dan rekomendasi untuk dataset Anda</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action -->
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="p-5 mb-4 bg-light rounded-3 text-center">
+            <div class="container-fluid py-5">
+                <h1 class="display-5 fw-bold">Siap untuk Menganalisis Dataset Anda?</h1>
+                <p class="fs-4">Mulai dengan mengunggah data meteorologi Anda untuk mendapatkan insight yang berharga.</p>
+                <a href="{{ url_for('upload_file') }}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-upload me-2"></i>Unggah Dataset
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

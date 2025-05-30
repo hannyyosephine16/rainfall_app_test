@@ -1,0 +1,189 @@
+{% extends "layout.html" %}
+
+{% block title %}Prediksi Curah Hujan - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i>Prediksi Curah Hujan</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info mb-4">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Masukkan nilai untuk fitur-fitur meteorologi berikut untuk mendapatkan prediksi kategori curah hujan.
+                </div>
+                
+                <form action="{{ url_for('predict') }}" method="post">
+                    <div class="row">
+                        {% for feature in features %}
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="{{ feature }}" class="form-label">{{ feature }}</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="{{ feature }}" name="{{ feature }}" step="0.01" required>
+                                    <span class="input-group-text">
+                                        {% if 'ddd' in feature %}
+                                        °
+                                        {% elif 'ff' in feature %}
+                                        m/s
+                                        {% elif 'RH' in feature %}
+                                        %
+                                        {% elif 'ss' in feature %}
+                                        jam
+                                        {% elif 'T' in feature %}
+                                        °C
+                                        {% elif 'RR' in feature %}
+                                        mm
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="form-text text-muted small">
+                                    {% if 'ddd' in feature %}
+                                    Arah angin dalam derajat (0-360)
+                                    {% elif 'ff' in feature %}
+                                    Kecepatan angin dalam meter per detik
+                                    {% elif 'RH' in feature %}
+                                    Kelembapan relatif dalam persen
+                                    {% elif 'ss' in feature %}
+                                    Lama penyinaran matahari dalam jam
+                                    {% elif 'T' in feature %}
+                                    Temperatur dalam derajat Celsius
+                                    {% elif 'RR' in feature %}
+                                    Curah hujan dalam milimeter
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-grid gap-2 col-md-6 mx-auto mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-chart-line me-2"></i>Prediksi Curah Hujan
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="mt-4">
+                    <h5>Contoh Nilai Referensi:</h5>
+                    <button type="button" class="btn btn-outline-secondary mb-3" id="fillExampleBtn">
+                        <i class="fas fa-fill-drip me-1"></i>Isi dengan Contoh
+                    </button>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Variabel</th>
+                                    <th>Cuaca Cerah</th>
+                                    <th>Cuaca Hujan Ringan</th>
+                                    <th>Cuaca Hujan Lebat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ddd_x</td>
+                                    <td>270</td>
+                                    <td>180</td>
+                                    <td>135</td>
+                                </tr>
+                                <tr>
+                                    <td>ddd_car</td>
+                                    <td>270</td>
+                                    <td>225</td>
+                                    <td>135</td>
+                                </tr>
+                                <tr>
+                                    <td>ff_x</td>
+                                    <td>15.7</td>
+                                    <td>20.5</td>
+                                    <td>25.8</td>
+                                </tr>
+                                <tr>
+                                    <td>ff_avg</td>
+                                    <td>10.1</td>
+                                    <td>12.3</td>
+                                    <td>18.5</td>
+                                </tr>
+                                <tr>
+                                    <td>RH_avg</td>
+                                    <td>78</td>
+                                    <td>85</td>
+                                    <td>92</td>
+                                </tr>
+                                <tr>
+                                    <td>ss</td>
+                                    <td>8.2</td>
+                                    <td>4.5</td>
+                                    <td>1.2</td>
+                                </tr>
+                                <tr>
+                                    <td>Tx</td>
+                                    <td>32.1</td>
+                                    <td>30.2</td>
+                                    <td>28.5</td>
+                                </tr>
+                                <tr>
+                                    <td>Tn</td>
+                                    <td>25.3</td>
+                                    <td>24.5</td>
+                                    <td>23.8</td>
+                                </tr>
+                                <tr>
+                                    <td>Tavg</td>
+                                    <td>28.5</td>
+                                    <td>27.3</td>
+                                    <td>26.1</td>
+                                </tr>
+                                <tr>
+                                    <td>RR</td>
+                                    <td>0.0</td>
+                                    <td>15.2</td>
+                                    <td>75.6</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fill example data when button is clicked
+        const fillExampleBtn = document.getElementById('fillExampleBtn');
+        
+        fillExampleBtn.addEventListener('click', function() {
+            // Example data for moderate rain
+            const exampleData = {
+                'ddd_x': 180,
+                'ddd_car': 225,
+                'ff_x': 20.5,
+                'ff_avg': 12.3,
+                'RH_avg': 85,
+                'ss': 4.5,
+                'Tx': 30.2,
+                'Tn': 24.5,
+                'Tavg': 27.3,
+                'RR': 15.2
+            };
+            
+            // Fill form fields with example data
+            for (const [feature, value] of Object.entries(exampleData)) {
+                const input = document.getElementById(feature);
+                if (input) {
+                    input.value = value;
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

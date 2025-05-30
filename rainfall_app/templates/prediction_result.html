@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+{% block title %}Hasil Prediksi - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i>Hasil Prediksi Curah Hujan</h4>
+            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    <div class="display-4 mb-3">
+                        {% if prediction_category == 'Tidak Hujan' %}
+                        <i class="fas fa-sun text-warning fa-2x"></i>
+                        {% elif prediction_category == 'Ringan' %}
+                        <i class="fas fa-cloud-sun-rain text-primary fa-2x"></i>
+                        {% elif prediction_category == 'Sedang' %}
+                        <i class="fas fa-cloud-rain text-primary fa-2x"></i>
+                        {% elif prediction_category == 'Lebat' %}
+                        <i class="fas fa-cloud-showers-heavy text-primary fa-2x"></i>
+                        {% elif prediction_category == 'Sangat Lebat' %}
+                        <i class="fas fa-poo-storm text-danger fa-2x"></i>
+                        {% endif %}
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+                    <h2 class="mb-3">{{ prediction_category }}</h2>
+                    <p class="lead">Berdasarkan data yang dimasukkan, model memprediksi curah hujan dalam kategori <strong>{{ prediction_category }}</strong>.</p>
+                </div>
+                
+                {% if prob_plot %}
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Probabilitas Prediksi</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="data:image/png;base64,{{ prob_plot }}" class="img-fluid" alt="Prediction Probabilities">
+                        
+                        <div class="alert alert-info mt-3">
+                            <small>
+                                <i class="fas fa-info-circle me-1"></i>
+                                Diagram di atas menunjukkan probabilitas untuk setiap kategori curah hujan.
+                                Kategori dengan probabilitas tertinggi dipilih sebagai hasil prediksi.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Data Input</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Fitur</th>
+                                        <th>Nilai</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for feature, value in input_data.items() %}
+                                    <tr>
+                                        <td>{{ feature }}</td>
+                                        <td>
+                                            {{ value }}
+                                            {% if 'ddd' in feature %}
+                                            °
+                                            {% elif 'ff' in feature %}
+                                            m/s
+                                            {% elif 'RH' in feature %}
+                                            %
+                                            {% elif 'ss' in feature %}
+                                            jam
+                                            {% elif 'T' in feature %}
+                                            °C
+                                            {% elif 'RR' in feature %}
+                                            mm
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>

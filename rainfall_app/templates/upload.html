@@ -1,0 +1,187 @@
+{% extends "layout.html" %}
+
+{% block title %}Upload Data - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-upload me-2"></i>Unggah Dataset Curah Hujan</h4>
+            </div>
+            <div class="card-body">
+                <div class="p-4">
+                    <h5 class="card-title mb-3">Unggah File CSV atau Excel</h5>
+                    
+                    <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" class="dropzone-form">
+                        <div class="dropzone-wrapper mb-4">
+                            <div class="dropzone-desc">
+                                <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                <p>Pilih file atau seret dan lepaskan di sini</p>
+                                <small class="text-muted">Format yang didukung: CSV, XLSX, XLS</small>
+                            </div>
+                            <input type="file" name="file" class="dropzone" accept=".csv,.xlsx,.xls" required>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-upload me-2"></i>Unggah dan Analisis
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <hr>
+                
+                <div class="mt-4">
+                    <h5 class="mb-3">Persyaratan Dataset</h5>
+                    <div class="alert alert-info">
+                        <h6 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Format Data yang Diharapkan</h6>
+                        <p class="mb-0">
+                            Dataset Anda harus berisi kolom-kolom berikut (atau serupa):
+                        </p>
+                        <ul class="mb-0 mt-2">
+                            <li>Arah angin saat kecepatan maksimum (ddd_x)</li>
+                            <li>Arah angin terbanyak (ddd_car)</li>
+                            <li>Curah hujan (RR)</li>
+                            <li>Kecepatan angin maksimum (ff_x)</li>
+                            <li>Kecepatan angin rata-rata (ff_avg)</li>
+                            <li>Kelembapan rata-rata (RH_avg)</li>
+                            <li>Lamanya penyinaran matahari (ss)</li>
+                            <li>Temperatur maksimum (Tx)</li>
+                            <li>Temperatur minimum (Tn)</li>
+                            <li>Temperatur rata-rata (Tavg)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <h6 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i>Catatan Penting</h6>
+                        <ul class="mb-0">
+                            <li>Pastikan data Anda bersih dan tidak memiliki nilai yang hilang yang signifikan</li>
+                            <li>Ukuran file maksimum: 16MB</li>
+                            <li>Semua kolom numerik harus berisi angka yang valid</li>
+                            <li>Format tanggal yang disarankan: YYYY-MM-DD</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h5 class="mb-3">Contoh Format</h5>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>ddd_x</th>
+                                    <th>ddd_car</th>
+                                    <th>RR</th>
+                                    <th>ff_x</th>
+                                    <th>ff_avg</th>
+                                    <th>RH_avg</th>
+                                    <th>ss</th>
+                                    <th>Tx</th>
+                                    <th>Tn</th>
+                                    <th>Tavg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2025-01-01</td>
+                                    <td>270</td>
+                                    <td>270</td>
+                                    <td>15.2</td>
+                                    <td>20.5</td>
+                                    <td>12.3</td>
+                                    <td>85</td>
+                                    <td>4.5</td>
+                                    <td>30.2</td>
+                                    <td>24.5</td>
+                                    <td>27.3</td>
+                                </tr>
+                                <tr>
+                                    <td>2025-01-02</td>
+                                    <td>180</td>
+                                    <td>225</td>
+                                    <td>0.0</td>
+                                    <td>15.7</td>
+                                    <td>10.1</td>
+                                    <td>78</td>
+                                    <td>8.2</td>
+                                    <td>32.1</td>
+                                    <td>25.3</td>
+                                    <td>28.5</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dropzone-wrapper {
+        border: 2px dashed #ccc;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .dropzone-wrapper:hover {
+        border-color: #0d6efd;
+    }
+    
+    .dropzone {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+    
+    .dropzone-desc {
+        color: #6c757d;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // JavaScript to handle file upload UI
+    document.addEventListener('DOMContentLoaded', function() {
+        const dropzoneForm = document.querySelector('.dropzone-form');
+        const dropzoneInput = document.querySelector('.dropzone');
+        const dropzoneDesc = document.querySelector('.dropzone-desc');
+        
+        // Highlight dropzone when file is dragged over
+        dropzoneInput.addEventListener('dragover', function() {
+            dropzoneForm.querySelector('.dropzone-wrapper').classList.add('bg-light');
+        });
+        
+        dropzoneInput.addEventListener('dragleave', function() {
+            dropzoneForm.querySelector('.dropzone-wrapper').classList.remove('bg-light');
+        });
+        
+        // Update text when file is selected
+        dropzoneInput.addEventListener('change', function() {
+            if (this.files.length) {
+                const fileName = this.files[0].name;
+                dropzoneDesc.innerHTML = `
+                    <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
+                    <p class="fw-bold">${fileName}</p>
+                    <small class="text-muted">Klik tombol Unggah untuk memulai analisis</small>
+                `;
+                dropzoneForm.querySelector('.dropzone-wrapper').classList.add('border-primary');
+            }
+        });
+    });
+</script>
+{% endblock %}

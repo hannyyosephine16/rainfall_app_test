@@ -1,0 +1,125 @@
+{% extends "layout.html" %}
+
+{% block title %}Model Tuning - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="fas fa-check-circle me-2"></i>Tuning Model Berhasil</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success">
+                    <i class="fas fa-trophy me-2"></i>
+                    <strong>Model telah dioptimalkan</strong> dengan parameter terbaik.
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="card-title mb-0">Parameter Terbaik</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Parameter</th>
+                                                <th>Nilai</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for param, value in best_params.items() %}
+                                            <tr>
+                                                <td><code>{{ param }}</code></td>
+                                                <td>
+                                                    {% if value is string %}
+                                                    <code>'{{ value }}'</code>
+                                                    {% else %}
+                                                    <code>{{ value }}</code>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h5 class="card-title mb-0">Performa Model</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Skor CV Terbaik
+                                        <span class="badge bg-success rounded-pill">{{ best_score|round(4) }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Akurasi pada Data Uji
+                                        <span class="badge bg-primary rounded-pill">{{ accuracy|round(4) }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Confusion Matrix</h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <img src="data:image/png;base64,{{ confusion_matrix_plot }}" class="img-fluid" alt="Confusion Matrix">
+                        
+                        <div class="alert alert-info mt-3">
+                            <small>
+                                <i class="fas fa-info-circle me-1"></i>
+                                <strong>Confusion Matrix</strong> menunjukkan perbandingan antara nilai aktual dan prediksi.
+                                Diagonal utama (kiri atas ke kanan bawah) menunjukkan jumlah prediksi yang benar.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i>Evaluasi Efisiensi Dataset</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">
+                    Langkah selanjutnya adalah mengevaluasi efisiensi dan efektivitas dataset Anda berdasarkan
+                    performa model yang telah dioptimalkan.
+                </p>
+                
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Evaluasi ini akan menganalisis pengaruh ukuran dataset dan jumlah fitur terhadap performa model,
+                    serta memberikan rekomendasi untuk meningkatkan kualitas dataset.
+                </div>
+                
+                <form action="{{ url_for('evaluate_dataset') }}" method="post">
+                    <div class="d-grid gap-2 col-md-6 mx-auto">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-chart-line me-2"></i>Evaluasi Efisiensi Dataset
+                        </button>
+                        <div class="form-text text-center text-muted">
+                            Proses ini akan memberikan insight mengenai kualitas dataset Anda
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

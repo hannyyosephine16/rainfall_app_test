@@ -1,0 +1,165 @@
+{% extends "layout.html" %}
+
+{% block title %}Ekspor Model - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="fas fa-download me-2"></i>Model Berhasil Diekspor</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success mb-4">
+                    <i class="fas fa-check-circle me-2"></i>
+                    Model klasifikasi curah hujan telah berhasil diekspor dan siap untuk diunduh.
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Informasi Model</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Tipe Model
+                                <span class="badge bg-primary">{{ model_info.type }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Akurasi
+                                <span class="badge bg-success">{{ model_info.accuracy|round(4) }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Jumlah Fitur
+                                <span class="badge bg-primary">{{ model_info.features|length }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Waktu Ekspor
+                                <span class="badge bg-secondary">{{ model_info.export_time }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Fitur yang Digunakan</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama Fitur</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i, feature in enumerate(model_info.features) %}
+                                    <tr>
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ feature }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">File yang Diekspor</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-file-code me-2 text-primary"></i>
+                                    Model (pickle)
+                                </div>
+                                <a href="{{ downloads.model }}" download class="btn btn-sm btn-primary">
+                                    <i class="fas fa-download me-1"></i>Unduh
+                                </a>
+                            </li>
+                            
+                            {% if downloads.scaler %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-file-code me-2 text-success"></i>
+                                    Scaler (pickle)
+                                </div>
+                                <a href="{{ downloads.scaler }}" download class="btn btn-sm btn-success">
+                                    <i class="fas fa-download me-1"></i>Unduh
+                                </a>
+                            </li>
+                            {% endif %}
+                            
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-file-code me-2 text-info"></i>
+                                    Daftar Fitur (JSON)
+                                </div>
+                                <a href="{{ downloads.features }}" download class="btn btn-sm btn-info">
+                                    <i class="fas fa-download me-1"></i>Unduh
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i>Cara Menggunakan Model</h5>
+                    <p>
+                        Untuk menggunakan model yang diekspor dalam aplikasi Python Anda sendiri, gunakan kode berikut:
+                    </p>
+                    <pre><code>import pickle
+import json
+import pandas as pd
+
+# Load model
+with open('rainfall_model.pkl', 'rb') as f:
+    model = pickle.load(f)
+
+# Load scaler (jika ada)
+with open('scaler.pkl', 'rb') as f:
+    scaler = pickle.load(f)
+
+# Load feature names
+with open('features.json', 'r') as f:
+    features = json.load(f)
+
+# Prepare input data
+input_data = {
+    'feature1': value1,
+    'feature2': value2,
+    # ...
+}
+input_df = pd.DataFrame([input_data])
+
+# Scale input data
+input_df = pd.DataFrame(
+    scaler.transform(input_df[features]),
+    columns=features
+)
+
+# Make prediction
+prediction = model.predict(input_df)[0]
+</code></pre>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                        <a href="{{ url_for('predict') }}" class="btn btn-primary">
+                            <i class="fas fa-chart-line me-2"></i>Lakukan Prediksi
+                        </a>
+                        <a href="{{ url_for('index') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-home me-2"></i>Kembali ke Beranda
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

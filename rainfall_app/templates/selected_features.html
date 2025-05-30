@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+
+{% block title %}Fitur Terpilih - Aplikasi Analisis Curah Hujan{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="fas fa-check-circle me-2"></i>Seleksi Fitur Berhasil</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-success">
+                    <i class="fas fa-info-circle me-2"></i>
+                    {{ selected_features|length }} fitur telah dipilih untuk digunakan dalam model.
+                </div>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Fitur yang Dipilih</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Nama Fitur</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i, feature in enumerate(selected_features) %}
+                                    <tr>
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ feature }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="fas fa-robot me-2"></i>Bangun Model Klasifikasi</h4>
+            </div>
+            <div class="card-body">
+                <p class="lead">
+                    Langkah selanjutnya adalah membangun dan membandingkan berbagai model klasifikasi
+                    untuk menemukan model terbaik untuk dataset Anda.
+                </p>
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="card-title mb-0">Model yang Akan Dibandingkan</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Random Forest</h5>
+                                        <p class="card-text small">
+                                            Algoritma ensemble yang membangun banyak pohon keputusan dan menggabungkan hasil mereka.
+                                            Biasanya memberikan hasil yang baik untuk berbagai jenis data.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">XGBoost</h5>
+                                        <p class="card-text small">
+                                            Implementasi gradient boosting yang sangat efisien dan fleksibel.
+                                            Sering menjadi pilihan terbaik dalam kompetisi machine learning.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">SVM</h5>
+                                        <p class="card-text small">
+                                            Support Vector Machine bekerja dengan mencari hyperplane optimal
+                                            yang memisahkan kelas-kelas dalam ruang fitur.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Logistic Regression</h5>
+                                        <p class="card-text small">
+                                            Model linear sederhana yang bekerja baik untuk klasifikasi
+                                            dan memberikan interpretabilitas yang baik.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Gradient Boosting</h5>
+                                        <p class="card-text small">
+                                            Teknik ensemble yang membangun model secara bertahap
+                                            dan meminimalkan kesalahan dari model sebelumnya.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title">KNN</h5>
+                                        <p class="card-text small">
+                                            K-Nearest Neighbors mengklasifikasikan berdasarkan jarak
+                                            dari titik data ke tetangga terdekatnya.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form action="{{ url_for('build_models') }}" method="post">
+                    <div class="d-grid gap-2 col-md-6 mx-auto">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-robot me-2"></i>Bangun dan Bandingkan Model
+                        </button>
+                        <div class="form-text text-center text-muted">
+                            Proses ini mungkin memerlukan waktu beberapa saat tergantung pada ukuran dataset
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
